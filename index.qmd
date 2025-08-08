@@ -29,7 +29,10 @@ data <-
     mutate(
         version = factor(version, levels = rev(unique(version))),
         close_date = lead(date),
-        close_date = replace_na(close_date, now())
+        close_date = replace_na(close_date, now()),
+        nickname = case_when(
+          is.na(nickname) ~ glue::glue('v{version}'), 
+          TRUE ~ glue::glue('v{version}: {nickname}'))
     ) %>% 
     relocate(close_date, .after = date)
 data %>% 
