@@ -1,0 +1,54 @@
+---
+title: "r-software-lifetime"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+---
+
+This website provides a quick visualization of the lifespans of different R versions. While the information exists on the web, summarized and glanceable details are somewhat scattered. This site brings it together with help from the [rversions package](https://cran.r-project.org/package=rversions). Click the "Show the code" button to view the code used to create each section.
+
+```{r}
+#| label: setup
+#| echo: false
+#| include: false
+library(tidyverse)
+library(magrittr)
+library(rversions)
+library(lubridate)
+library(plotly)
+library(DT)
+```
+
+```{r}
+#| label: data-munge
+data <-
+    r_versions() %>% 
+    filter(grepl("\\.0$", version)) %>%
+    arrange(date) %>% 
+    mutate(
+        version = factor(version, levels = rev(unique(version))),
+        close_date = lead(date),
+        close_date = replace_na(close_date, now())
+    ) %>% 
+    relocate(close_date, .after = date)
+data %>% 
+    datatable()
+```
+
+```{r}
+#| label: plotly
+data %>% 
+  plot_ly() %>% 
+  add_segments(
+    x = ~date, xend = ~close_date, 
+    y = ~version, yend = ~version,
+    hoverinfo = 'text', text = ~nickname
+  ) %>% 
+  layout(
+    title = "Version Lifespan",
+    xaxis = list(title = "Date"),
+    yaxis = list(title = "Version")  
+  )
+
+```
