@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This site is maintained by the Software Engineering Team at the University of Colorado Anschutz Medical Campus"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "r-software-lifetime",
+    "section": "",
+    "text": "This website provides a quick visualization of the lifespans of different R versions. While the information exists on the web, summarized and glanceable details are somewhat scattered. This site brings it together with help from the rversions package. Click the “Show the code” button to view the code used to create each section.\n\n\nShow the code\ndata &lt;-\n    r_versions() %&gt;% \n    filter(grepl(\"\\\\.0$\", version)) %&gt;%\n    arrange(date) %&gt;% \n    mutate(\n        version = factor(version, levels = rev(unique(version))),\n        close_date = lead(date),\n        close_date = replace_na(close_date, now()),\n        nickname = case_when(\n          is.na(nickname) ~ glue::glue('v{version}'), \n          TRUE ~ glue::glue('v{version}: {nickname}'))\n    ) %&gt;% \n    relocate(close_date, .after = date)\ndata %&gt;% \n    datatable()\n\n\n\n\n\n\n\n\nShow the code\ndata %&gt;% \n  plot_ly() %&gt;% \n  add_segments(\n    x = ~date, xend = ~close_date, \n    y = ~version, yend = ~version,\n    hoverinfo = 'text', text = ~nickname\n  ) %&gt;% \n  layout(\n    title = \"Version Lifespan\",\n    xaxis = list(title = \"Date\"),\n    yaxis = list(title = \"Version\")  \n  )"
+  }
+]
