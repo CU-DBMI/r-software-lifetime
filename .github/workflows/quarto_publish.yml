@@ -2,6 +2,9 @@ on:
   workflow_dispatch:
   push:
     branches: main
+  schedule:
+    # Runs at midnight UTC on the 1st of every month
+    - cron: '0 0 1 * *'
 
 name: quarto_publish.yml
 
