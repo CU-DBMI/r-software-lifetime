@@ -36,7 +36,12 @@ data <-
     ) %>% 
     relocate(close_date, .after = date)
 data %>% 
-    datatable()
+    datatable(
+      options = list(
+        scrollY = 425,
+        scroller = TRUE
+      )
+    )
 ```
 
 ```{r}
@@ -46,6 +51,7 @@ data %>%
   add_segments(
     x = ~date, xend = ~close_date, 
     y = ~version, yend = ~version,
+    line = list(width = 6),
     hoverinfo = 'text', text = ~nickname
   ) %>% 
   layout(
