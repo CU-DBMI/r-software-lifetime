@@ -9,6 +9,17 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+    tools:
+      - icon: github
+        menu:
+          - text: Source Code
+            href:  https://github.com/CU-DBMI/r-software-lifetime
+          - text: Report a Bug
+            href:  https://github.com/CU-DBMI/r-software-lifetime/issues/new
+  site-url: "https://cu-dbmi.github.io/r-software-lifetime/"
+  repo-url: "https://github.com/CU-DBMI/r-software-lifetime"
+  repo-branch: main
+  repo-actions: [edit, issue]
 
 format:
   html:
@@ -17,6 +28,3 @@ format:
       - brand
     css: styles.css
     toc: true
-
-
-
