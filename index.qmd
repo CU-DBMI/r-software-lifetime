@@ -9,34 +9,26 @@ format:
 This website provides a quick visualization of the lifespans of different R versions. While the information exists on the web, summarized and glanceable details are somewhat scattered. This site brings it together with help from the [rversions package](https://cran.r-project.org/package=rversions). Click the "Show the code" button to view the code used to create each section.
 
 ```{r}
-#| label: setup
-#| echo: false
-#| include: false
-library(tidyverse)
-library(magrittr)
-library(rversions)
-library(lubridate)
-library(plotly)
-library(DT)
+#| label: data-munge
+data <-
+  rversions::r_versions() |>
+  dplyr::filter(grepl("\\.0$", version)) |>
+  dplyr::arrange(date) |>
+  dplyr::mutate(
+        version = factor(version, levels = rev(unique(version))),
+        close_date = dplyr::lead(date),
+        close_date = tidyr::replace_na(close_date, lubridate::now()),
+        nickname = dplyr::case_when(
+          is.na(nickname) ~ glue::glue('v{version}'),
+          TRUE ~ glue::glue('v{version}: {nickname}'))
+    ) |>
+  dplyr::relocate(close_date, .after = date)
 ```
 
 ```{r}
-#| label: data-munge
-data <-
-    r_versions() %>% 
-    filter(grepl("\\.0$", version)) %>%
-    arrange(date) %>% 
-    mutate(
-        version = factor(version, levels = rev(unique(version))),
-        close_date = lead(date),
-        close_date = replace_na(close_date, now()),
-        nickname = case_when(
-          is.na(nickname) ~ glue::glue('v{version}'), 
-          TRUE ~ glue::glue('v{version}: {nickname}'))
-    ) %>% 
-    relocate(close_date, .after = date)
-data %>% 
-    datatable(
+#| label: data-table-output
+data |>
+  DT::datatable(
       options = list(
         scrollY = 425,
         scroller = TRUE
@@ -46,18 +38,17 @@ data %>%
 
 ```{r}
 #| label: plotly
-data %>% 
-  plot_ly() %>% 
-  add_segments(
-    x = ~date, xend = ~close_date, 
+data |>
+  plotly::plot_ly() |>
+  plotly::add_segments(
+    x = ~date, xend = ~close_date,
     y = ~version, yend = ~version,
     line = list(width = 6),
     hoverinfo = 'text', text = ~nickname
-  ) %>% 
-  layout(
+  ) |>
+  plotly::layout(
     title = "Version Lifespan",
     xaxis = list(title = "Date"),
-    yaxis = list(title = "Version")  
+    yaxis = list(title = "Version")
   )
-
 ```
