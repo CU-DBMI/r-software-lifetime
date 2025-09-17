@@ -126,9 +126,16 @@ r_base_vulns %>%
     options = list(
       scrollX = TRUE,
       scrollY = 425,
-      scroller = TRUE
+      scroller = TRUE,
+      columnDefs = list(
+      list(
+        targets = 6,
+        render = DT::JS('$.fn.dataTable.render.ellipsis( 65 )')
+      )
+    )
       ), 
     rownames = FALSE,
-    escape = FALSE
+    escape = FALSE,
+    plugins = 'ellipsis'
   )
 ```
