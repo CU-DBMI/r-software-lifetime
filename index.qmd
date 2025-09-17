@@ -28,6 +28,7 @@ library(DT)
 r_versions_data <-
     r_versions() %>% 
     arrange(package_version(version)) %>% 
+    rename(release_date = date) %>% 
     mutate(
         version_fct = factor(version, levels = rev(unique(package_version(version)))),
         major_version = str_extract(version, "^[0-9]+\\.[0-9]+"),
@@ -36,13 +37,13 @@ r_versions_data <-
           TRUE ~ major_version
           ),
         major_version_fct = factor(major_version, levels = rev(unique(package_version(major_version)))), 
-        close_date = lead(date),
-        close_date = replace_na(close_date, now()),
+        superseded_date = lead(release_date),
+        superseded_date = replace_na(superseded_date, now()),
         nickname = case_when(
           is.na(nickname) ~ glue::glue('v{version}'), 
           TRUE ~ glue::glue('v{version}: {nickname}'))
     ) %>% 
-    relocate(close_date, .after = date)
+    relocate(superseded_date, .after = release_date)
 
 ## osv-vulnerabilities
 source('utils/osv-cve-helper.R')
@@ -59,10 +60,10 @@ combined <-
   mutate(is_vulnerable = package_version(as.character(version)) < package_version(fixed_r_version)) %>% 
   group_by(major_version, major_version_fct) %>% 
   summarize(
-    date = min(date, na.rm = TRUE),
-    close_date = max(close_date, na.rm = TRUE),
+    release_date = min(release_date, na.rm = TRUE),
+    superseded_date = max(superseded_date, na.rm = TRUE),
     is_vulnerable = any(is_vulnerable), 
-    nickname = nickname[which.min(date)],
+    nickname = nickname[which.min(release_date)],
     .groups = 'drop'
     )
 ```
@@ -87,7 +88,7 @@ r_versions_data %>%
 combined %>%  
   plot_ly() %>% 
   add_segments(
-    x = ~date, xend = ~close_date, 
+    x = ~release_date, xend = ~superseded_date, 
     y = ~major_version, yend = ~major_version,
     color = ~is_vulnerable,
     colors = c("FALSE" = "steelblue", "TRUE" = "red"),
