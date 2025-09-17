@@ -15,6 +15,7 @@ This website provides a quick visualization of the lifespans of different R vers
 library(tidyverse)
 library(magrittr)
 library(rversions)
+library(httr2)
 library(lubridate)
 library(plotly)
 library(DT)
@@ -22,12 +23,19 @@ library(DT)
 
 ```{r}
 #| label: data-munge
-data <-
+
+## r_versions_data
+r_versions_data <-
     r_versions() %>% 
-    filter(grepl("\\.0$", version)) %>%
-    arrange(date) %>% 
+    arrange(package_version(version)) %>% 
     mutate(
-        version = factor(version, levels = rev(unique(version))),
+        version_fct = factor(version, levels = rev(unique(package_version(version)))),
+        major_version = str_extract(version, "^[0-9]+\\.[0-9]+"),
+        major_version = case_when(
+          as.numeric(major_version) < 1 ~ NA_character_, 
+          TRUE ~ major_version
+          ),
+        major_version_fct = factor(major_version, levels = rev(unique(package_version(major_version)))), 
         close_date = lead(date),
         close_date = replace_na(close_date, now()),
         nickname = case_when(
@@ -35,29 +43,77 @@ data <-
           TRUE ~ glue::glue('v{version}: {nickname}'))
     ) %>% 
     relocate(close_date, .after = date)
-data %>% 
-    datatable(
-      options = list(
-        scrollY = 425,
-        scroller = TRUE
-      )
+
+## osv-vulnerabilities
+source('utils/osv-cve-helper.R')
+r_base_vulns <- query_osv(name = 'r-base', ecosystem = 'Debian')
+r_base_vulns_data <- 
+  r_base_vulns %>% 
+  separate(fixed, into = c('fixed_r_version', 'ecosystem_revision'), sep = '-')
+
+## combined
+combined <- 
+  r_versions_data %>% 
+  cross_join(r_base_vulns_data) %>% 
+  tibble::as_tibble() %>% 
+  mutate(is_vulnerable = package_version(as.character(version)) < package_version(fixed_r_version)) %>% 
+  group_by(major_version, major_version_fct) %>% 
+  summarize(
+    date = min(date, na.rm = TRUE),
+    close_date = max(close_date, na.rm = TRUE),
+    is_vulnerable = any(is_vulnerable), 
+    nickname = nickname[which.min(date)],
+    .groups = 'drop'
     )
+```
+
+## Version History
+
+```{r}
+#| label: data-table-r_versions
+r_versions_data %>% 
+  select(-c(ends_with("_fct"), major_version)) %>% 
+  datatable(
+    options = list(
+      scrollY = 425,
+      scroller = TRUE
+      ), 
+    rownames = FALSE
+  )
 ```
 
 ```{r}
 #| label: plotly
-data %>% 
+combined %>%  
   plot_ly() %>% 
   add_segments(
     x = ~date, xend = ~close_date, 
-    y = ~version, yend = ~version,
+    y = ~major_version, yend = ~major_version,
+    color = ~is_vulnerable,
+    colors = c("FALSE" = "steelblue", "TRUE" = "red"),
     line = list(width = 6),
     hoverinfo = 'text', text = ~nickname
   ) %>% 
   layout(
-    title = "Version Lifespan",
+    title = "R Major Version Lifespan",
     xaxis = list(title = "Date"),
-    yaxis = list(title = "Version")  
+    yaxis = list(
+      title = "Major Version",
+      type = "category",
+      categoryorder = "array",
+      categoryarray = sort(unique(combined$major_version_fct))
+    ),
+    legend = list(
+      title = list(text = "CVE Exists")
+    )
   )
+```
 
+## R-Project Vulnerability Information
+
+Current and historical vulnerability tracking information for R. This should not be considered a recommendation for which versions of R to use, but rather a reference resource to help users stay informed and make their own decisions based on official guidance and project documentation.
+
+
+```{r}
+r_base_vulns
 ```
