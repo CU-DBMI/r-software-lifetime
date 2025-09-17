@@ -21,6 +21,10 @@ library(plotly)
 library(DT)
 ```
 
+## Version History
+
+All historical versions of R as reported by `rversions::r_versions()`. R version numbers consist of three numbers (since version 1.4.1): major, minor and patch.
+
 ```{r}
 #| label: data-munge
 
@@ -68,8 +72,6 @@ combined <-
     )
 ```
 
-## Version History
-
 ```{r}
 #| label: data-table-r_versions
 r_versions_data %>% 
@@ -112,7 +114,7 @@ combined %>%
 
 ## R-Project Vulnerability Information
 
-Current and historical vulnerability tracking information for R. This should not be considered a endorsement for which version of R to use, but rather a resource to help users stay informed and make an informed decision based on official guidance and project documentation.
+This resource tracks current and historical vulnerabilities for the r-base package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a recommendation on which version of R to use, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation.
 
 
 ```{r}
