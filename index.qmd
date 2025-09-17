@@ -142,4 +142,4 @@ r_base_vulns %>%
   )
 ```
 
-[CVE information](https://osv.dev/) provided by osv.dev
+**CVE information** provided by [osv.dev](https://osv.dev/)
