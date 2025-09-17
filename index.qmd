@@ -112,7 +112,7 @@ combined %>%
 
 ## R-Project Vulnerability Information
 
-Current and historical vulnerability tracking information for R. This should not be considered a recommendation for which versions of R to use, but rather a reference resource to help users stay informed and make their own decisions based on official guidance and project documentation.
+Current and historical vulnerability tracking information for R. This should not be considered a endorsement for which version of R to use, but rather a resource to help users stay informed and make an informed decision based on official guidance and project documentation.
 
 
 ```{r}
