@@ -116,5 +116,19 @@ Current and historical vulnerability tracking information for R. This should not
 
 
 ```{r}
-r_base_vulns
+#| label: data-table-osv-vulnerabilities
+r_base_vulns %>% 
+  mutate(
+    id = glue::glue("<a href='https://osv.dev/vulnerability/{id}' target='_blank'>{id}</a>")
+    ) %>% 
+  select(-references) %>% 
+  datatable(
+    options = list(
+      scrollX = TRUE,
+      scrollY = 425,
+      scroller = TRUE
+      ), 
+    rownames = FALSE,
+    escape = FALSE
+  )
 ```
