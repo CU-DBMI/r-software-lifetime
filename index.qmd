@@ -114,7 +114,7 @@ combined %>%
 
 ## R-Project Vulnerability Information
 
-This resource tracks current and historical vulnerabilities for the r-base package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a recommendation on which version of R to use, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation.
+This resource tracks current and historical vulnerabilities for the `r-base` package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a recommendation on which version of R to use, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation.
 
 
 ```{r}
@@ -141,3 +141,5 @@ r_base_vulns %>%
     plugins = 'ellipsis'
   )
 ```
+
+[CVE information](https://osv.dev/) provided by osv.dev
