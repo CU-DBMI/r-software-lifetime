@@ -1,10 +1,66 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "r-software-lifetime",
+    "objectID": "r-news.html",
+    "href": "r-news.html",
+    "title": "r-changelog",
     "section": "",
-    "text": "This website provides a quick visualization of the lifespans of different R versions. While the information exists on the web, summarized and glanceable details are somewhat scattered. This site brings it together with help from the rversions package. Click the “Show the code” button to view the code used to create each section.\n\n\nShow the code\ndata &lt;-\n    r_versions() %&gt;% \n    filter(grepl(\"\\\\.0$\", version)) %&gt;%\n    arrange(date) %&gt;% \n    mutate(\n        version = factor(version, levels = rev(unique(version))),\n        close_date = lead(date),\n        close_date = replace_na(close_date, now()),\n        nickname = case_when(\n          is.na(nickname) ~ glue::glue('v{version}'), \n          TRUE ~ glue::glue('v{version}: {nickname}'))\n    ) %&gt;% \n    relocate(close_date, .after = date)\ndata %&gt;% \n    datatable(\n      options = list(\n        scrollY = 425,\n        scroller = TRUE\n      )\n    )\n\n\n\n\n\n\n\n\nShow the code\ndata %&gt;% \n  plot_ly() %&gt;% \n  add_segments(\n    x = ~date, xend = ~close_date, \n    y = ~version, yend = ~version,\n    line = list(width = 6),\n    hoverinfo = 'text', text = ~nickname\n  ) %&gt;% \n  layout(\n    title = \"Version Lifespan\",\n    xaxis = list(title = \"Date\"),\n    yaxis = list(title = \"Version\")  \n  )"
+    "text": "With each release of R a bulleted list of changes are published and are organized by major release.\nThe release notes include sections for\nWe will link out to the specific versions, and note the signifiant user-visible changes here."
+  },
+  {
+    "objectID": "r-news.html#version-4.5.x",
+    "href": "r-news.html#version-4.5.x",
+    "title": "r-changelog",
+    "section": "Version 4.5.x",
+    "text": "Version 4.5.x\n\nVersion 4.5.1\nVersion 4.5.0"
+  },
+  {
+    "objectID": "r-news.html#version-4.4.x",
+    "href": "r-news.html#version-4.4.x",
+    "title": "r-changelog",
+    "section": "Version 4.4.x",
+    "text": "Version 4.4.x\n\nVersion 4.4.3\nVersion 4.4.2\nVersion 4.4.1\nVersion 4.4.0"
+  },
+  {
+    "objectID": "r-news.html#version-4.3.x",
+    "href": "r-news.html#version-4.3.x",
+    "title": "r-changelog",
+    "section": "Version 4.3.x",
+    "text": "Version 4.3.x\n\nVersion 4.3.3\nVersion 4.3.2\nVersion 4.3.1\nVersion 4.3.0\n\nSignificant User-Visible Changes:\n\nCalling && or || with LHS or (if evaluated) RHS of length greater than one is now always an error, with a report of the form\n‘length = 4’ in coercion to ‘logical(1)’\n\nEnvironment variable R_CHECK_LENGTH_1_LOGIC2 no longer has any effect.\nNew Features: there are many, we highlight:\n\nAs an experimental feature the placeholder _ can now also be used in the rhs of a forward pipe |&gt; expression as the first argument in an extraction call, such as _$coef. More generally, it can be used as the head of a chain of extractions, such as _$coef[[2]]."
+  },
+  {
+    "objectID": "r-news.html#version-4.2.x",
+    "href": "r-news.html#version-4.2.x",
+    "title": "r-changelog",
+    "section": "Version 4.2.x",
+    "text": "Version 4.2.x\n\nVersion 4.2.3\nVersion 4.2.2\nVersion 4.2.1\nVersion 4.2.0\n\nSignificant User-Visible Changes:\n\nThe formula method of aggregate() now matches the generic in naming its first argument x (resolving PR#18299 by Thomas Soeiro).\nThis means that calling aggregate() with a formula as a named first argument requires name formula in earlier versions of R and name x now, so portable code should not name the argument (code in many packages did).\nCalling && or || with either argument of length greater than one now gives a warning (which it is intended will become an error).\nCalling if() or while() with a condition of length greater than one gives an error rather than a warning. Consequently, environment variable R_CHECK_LENGTH_1_CONDITION no longer has any effect.\nWindows users should consult the WINDOWS section below for some profound changes including\n\nSupport for 32-bit builds has been dropped.\nUTF-8 locales are used where available.\nThe default locations for the R installation and personal library folder have been changed.\n\nThanks to Tomas Kalibera for months of work on the Windows port for this release.\n\nNew Features: there are many, we highlight:\n\nIn a forward pipe |&gt; expression it is now possible to use a named argument with the placeholder _ in the rhs call to specify where the lhs is to be inserted. The placeholder can only appear once on the rhs."
+  },
+  {
+    "objectID": "r-news.html#version-4.1.x",
+    "href": "r-news.html#version-4.1.x",
+    "title": "r-changelog",
+    "section": "Version 4.1.x",
+    "text": "Version 4.1.x\n\nVersion 4.1.3\nVersion 4.1.2\nVersion 4.1.1\nVersion 4.1.0\n\nFuture Directions:\n\nIt is planned that the 4.1.x series will be the last to support 32-bit Windows, with production of binary packages for that series continuing until early 2023.\n\nSignificant User-Visible Changes\n\nData set esoph in package datasets now provides the correct numbers of controls; previously it had the numbers of cases added to these. (Reported by Alexander Fowler in PR#17964.)\n\nNew Features: there are many, we highlight:\n\nR now provides a simple native forward pipe syntax |&gt;. The simple form of the forward pipe inserts the left-hand side as the first argument in the right-hand side call. The pipe implementation as a syntax transformation was motivated by suggestions from Jim Hester and Lionel Henry."
+  },
+  {
+    "objectID": "r-news.html#version-4.0.x",
+    "href": "r-news.html#version-4.0.x",
+    "title": "r-changelog",
+    "section": "Version 4.0.x",
+    "text": "Version 4.0.x\n\nVersion 4.0.5\nVersion 4.0.4\nVersion 4.0.3\nVersion 4.0.2\nVersion 4.0.1\nVersion 4.0.0\n\nSignificant User-Visible Changes:\n\nPackages need to be (re-)installed under this version (4.0.0) of R.\nmatrix objects now also inherit from class “array”, so e.g., class(diag(1)) is c(“matrix”, “array”). This invalidates code incorrectly assuming that class(matrix_obj)) has length one.\nS3 methods for class “array” are now dispatched for matrix objects.\nThere is a new syntax for specifying raw character constants similar to the one used in C++: r”(…)” with … any character sequence not containing the sequence ‘⁠)“⁠’. This makes it easier to write strings that contain backslashes or both single and double quotes. For more details see ?Quotes.\nR now uses a ‘⁠stringsAsFactors = FALSE⁠’ default, and hence by default no longer converts strings to factors in calls to data.frame() and read.table().\nA large number of packages relied on the previous behaviour and so have needed/will need updating.\nThe plot() S3 generic function is now in package base rather than package graphics, as it is reasonable to have methods that do not use the graphics package. The generic is currently re-exported from the graphics namespace to allow packages importing it from there to continue working, but this may change in future.\nPackages which define S4 generics for plot() should be re-installed and package code using such generics from other packages needs to ensure that they are imported rather than rely on their being looked for on the search path (as in a namespace, the base namespace has precedence over the search path)."
+  },
+  {
+    "objectID": "r-news.html#version-3.6.x",
+    "href": "r-news.html#version-3.6.x",
+    "title": "r-changelog",
+    "section": "Version 3.6.x",
+    "text": "Version 3.6.x\n\nVersion 3.6.3\nVersion 3.6.2\nVersion 3.6.1\nVersion 3.6.0\n\nSignificant User-Visible Changes:\n\nSerialization format version 3 becomes the default for serialization and saving of the workspace (save(), serialize(), saveRDS(), compiler::cmpfile()). Serialized data in format 3 cannot be read by versions of R prior to version 3.5.0. Serialization format version 2 is still supported and can be selected by version = 2 in the save/serialization functions. The default can be changed back for the whole R session by setting environment variables R_DEFAULT_SAVE_VERSION and R_DEFAULT_SERIALIZE_VERSION to 2. For maximal back-compatibility, files ‘vignette.rds’ and ‘partial.rdb’ generated by R CMD build are in serialization format version 2, and resave by default produces files in serialization format version 2 (unless the original is already in format version 3).\nThe default method for generating from a discrete uniform distribution (used in sample(), for instance) has been changed. This addresses the fact, pointed out by Ottoboni and Stark, that the previous method made sample() noticeably non-uniform on large populations. See PR#17494 for a discussion. The previous method can be requested using RNGkind() or RNGversion() if necessary for reproduction of old results. Thanks to Duncan Murdoch for contributing the patch and Gabe Becker for further assistance.\nThe output of RNGkind() has been changed to also return the ‘kind’ used by sample()."
+  },
+  {
+    "objectID": "r-news.html#version-3.5.x",
+    "href": "r-news.html#version-3.5.x",
+    "title": "r-changelog",
+    "section": "Version 3.5.x",
+    "text": "Version 3.5.x\n\nVersion 3.5.3\nVersion 3.5.2\nVersion 3.5.1\nVersion 3.5.0\n\nSignificant User-Visible Changes:\n\nAll packages are by default byte-compiled on installation. This makes the installed packages larger (usually marginally so) and may affect the format of messages and tracebacks (which often exclude .Call and similar)."
   },
   {
     "objectID": "about.html",
@@ -12,5 +68,12 @@
     "title": "About",
     "section": "",
     "text": "This site is maintained by the Software Engineering Team at the University of Colorado Anschutz Medical Campus"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "r-software-lifetime",
+    "section": "",
+    "text": "This website offers a quick visualization of the lifespans of different R versions, along with detials about the project’s history. While this information exists on the web, it is often scattered. Here, it is brought together with help from the rversions package. You can click “Show the code” to see how each section was generated.\n\n\nShow the code\ndata &lt;-\n  rversions::r_versions() |&gt;\n  dplyr::filter(grepl(\"\\\\.0$\", version)) |&gt;\n  dplyr::arrange(date) |&gt;\n  dplyr::mutate(\n        version = factor(version, levels = rev(unique(version))),\n        close_date = dplyr::lead(date),\n        close_date = tidyr::replace_na(close_date, lubridate::now()),\n        nickname = dplyr::case_when(\n          is.na(nickname) ~ glue::glue('v{version}'),\n          TRUE ~ glue::glue('v{version}: {nickname}'))\n    ) |&gt;\n  dplyr::relocate(close_date, .after = date)\n\n\n\n\nShow the code\ndata |&gt;\n  DT::datatable(\n      options = list(\n        scrollY = 425,\n        scroller = TRUE\n      )\n    )\n\n\n\n\n\n\n\n\nShow the code\ndata |&gt;\n  plotly::plot_ly() |&gt;\n  plotly::add_segments(\n    x = ~date, xend = ~close_date,\n    y = ~version, yend = ~version,\n    line = list(width = 6),\n    hoverinfo = 'text', text = ~nickname\n  ) |&gt;\n  plotly::layout(\n    title = \"Version Lifespan\",\n    xaxis = list(title = \"Date\"),\n    yaxis = list(title = \"Version\")\n  )"
   }
 ]

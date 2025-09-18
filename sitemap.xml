@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cu-dbmi.github.io/r-software-lifetime/index.html</loc>
-    <lastmod>2025-09-18T11:45:01.917Z</lastmod>
+    <loc>https://cu-dbmi.github.io/r-software-lifetime/r-news.html</loc>
+    <lastmod>2025-09-18T12:58:59.388Z</lastmod>
   </url>
   <url>
     <loc>https://cu-dbmi.github.io/r-software-lifetime/about.html</loc>
-    <lastmod>2025-09-18T11:45:01.916Z</lastmod>
+    <lastmod>2025-09-18T12:58:59.388Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cu-dbmi.github.io/r-software-lifetime/index.html</loc>
+    <lastmod>2025-09-18T12:58:59.388Z</lastmod>
   </url>
 </urlset>
