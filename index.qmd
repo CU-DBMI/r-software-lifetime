@@ -13,9 +13,9 @@ This website offers a quick visualization of the lifespans of different R versio
 
 ## r_versions_data
 r_versions_data <-
-    r_versions() %>% 
-    arrange(package_version(version)) %>% 
-    rename(release_date = date) %>% 
+    r_versions() |> 
+    arrange(package_version(version)) |> 
+    rename(release_date = date) |> 
     mutate(
         version_fct = factor(version, levels = rev(unique(package_version(version)))),
         major_version = str_extract(version, "^[0-9]+\\.[0-9]+"),
@@ -29,23 +29,23 @@ r_versions_data <-
         nickname = case_when(
           is.na(nickname) ~ glue::glue('v{version}'), 
           TRUE ~ glue::glue('v{version}: {nickname}'))
-    ) %>% 
+    ) |> 
     relocate(superseded_date, .after = release_date)
 
 ## osv-vulnerabilities
 source('utils/osv-cve-helper.R')
 r_base_vulns <- query_osv(name = 'r-base', ecosystem = 'Debian')
 r_base_vulns_data <- 
-  r_base_vulns %>% 
+  r_base_vulns |> 
   separate(fixed, into = c('fixed_r_version', 'ecosystem_revision'), sep = '-')
 
 ## combined
 combined <- 
-  r_versions_data %>% 
-  cross_join(r_base_vulns_data) %>% 
-  tibble::as_tibble() %>% 
-  mutate(is_vulnerable = package_version(as.character(version)) < package_version(fixed_r_version)) %>% 
-  group_by(major_version, major_version_fct) %>% 
+  r_versions_data |> 
+  cross_join(r_base_vulns_data) |> 
+  tibble::as_tibble() |> 
+  mutate(is_vulnerable = package_version(as.character(version)) < package_version(fixed_r_version)) |> 
+  group_by(major_version, major_version_fct) |> 
   summarize(
     release_date = min(release_date, na.rm = TRUE),
     superseded_date = max(superseded_date, na.rm = TRUE),
@@ -57,8 +57,8 @@ combined <-
 
 ```{r}
 #| label: data-table-r_versions
-r_versions_data %>% 
-  select(-c(ends_with("_fct"), major_version)) %>% 
+r_versions_data |> 
+  select(-c(ends_with("_fct"), major_version)) |> 
   datatable(
     options = list(
       scrollY = 425,
@@ -70,8 +70,8 @@ r_versions_data %>%
 
 ```{r}
 #| label: plotly
-combined %>%  
-  plot_ly() %>% 
+combined |>  
+  plot_ly() |> 
   add_segments(
     x = ~release_date, xend = ~superseded_date, 
     y = ~major_version, yend = ~major_version,
@@ -79,7 +79,7 @@ combined %>%
     colors = c("FALSE" = "steelblue", "TRUE" = "red"),
     line = list(width = 6),
     hoverinfo = 'text', text = ~nickname
-  ) %>% 
+  ) |> 
   layout(
     title = "R Major Version Lifespan",
     xaxis = list(title = "Date"),
@@ -102,11 +102,11 @@ This resource tracks current and historical vulnerabilities for the `r-base` pac
 
 ```{r}
 #| label: data-table-osv-vulnerabilities
-r_base_vulns %>% 
+r_base_vulns |> 
   mutate(
     id = glue::glue("<a href='https://osv.dev/vulnerability/{id}' target='_blank'>{id}</a>")
-    ) %>% 
-  select(-references) %>% 
+    ) |> 
+  select(-references) |> 
   datatable(
     options = list(
       scrollX = TRUE,
