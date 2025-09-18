@@ -10,7 +10,8 @@ website:
         text: Home
       - href: r-news.qmd
         text: R NEWS
-      - about.qmd
+      - href: about.qmd
+        text: About
     tools:
       - icon: github
         menu:
