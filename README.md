@@ -1,3 +1,4 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file and render with `rmarkdown::render("README.Rmd", output_format = rmarkdown::md_document(variant = "gfm"))`
 -->
 
@@ -23,13 +24,16 @@ generate each section.
 
 ## How it works
 
-- Data source: [rversions
-  package](https://cran.r-project.org/package=rversions), which provides
-  release history for R.
+- Data sources:
+  - [rversions package](https://cran.r-project.org/package=rversions),
+    which provides release history for R.
+  - [osv.dev](https://osv.dev), to locate current and historical CVE
+    iformation related to the R Project.
 - Visualization: Plotly charts and DT datatables summarizing version
   lifespans.
 - Transparency: Each section includes a “Show the code” button so
   readers can see exactly how the output was generated.
+- Automatic website builds and monthly updates via GitHub Actions!
 
 ## Local build
 
@@ -49,9 +53,21 @@ install.packages("renv") # if not already installed
 renv::restore()
 ```
 
-### Render the Quarto site
+### Preview or Render the Quarto site
 
 Ensure Quarto is installed: <https://quarto.org/docs/get-started/>
+
+## Preview
+
+Render the site and open it in a browser. Watch for changes and
+re-render when changes are made.
+
+    quarto preview
+
+### Render
+
+Generate a static version of the website locally. Publish manually if
+desired.
 
     quarto render
 
