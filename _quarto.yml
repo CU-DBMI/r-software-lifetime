@@ -8,6 +8,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: r-news.qmd
+        text: R NEWS
       - href: about.qmd
         text: About
     tools:
