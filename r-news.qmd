@@ -52,7 +52,7 @@ changes here.
 
 * [Version 4.3.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=%E2%81%A0%5CSexpr%E2%81%A0%20macros.-,CHANGES%20IN%20R%204.3.1,-C%2DLEVEL%20FACILITIES)
 
-* [Version 4.3.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318541).-,CHANGES%20IN%20R%204.3.0,-SIGNIFICANT%20USER%2DVISIBLE)
+* [Version 4.3.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318541.-,CHANGES%20IN%20R%204.3.0,-SIGNIFICANT%20USER%2DVISIBLE)
   * Significant User-Visible Changes:
     * Calling && or || with LHS or (if evaluated) RHS of length greater than one
       is now always an error, with a report of the form
@@ -69,7 +69,7 @@ changes here.
 
 ## Version 4.2.x
 
-* [Version 4.2.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=from%20Kevin%20Ushey).-,CHANGES%20IN%20R%204.2.3,-C%2DLEVEL%20FACILITIES)
+* [Version 4.2.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=from%20Kevin%20Ushey.-,CHANGES%20IN%20R%204.2.3,-C%2DLEVEL%20FACILITIES)
 
 * [Version 4.2.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=not%20support%20transliteration.-,CHANGES%20IN%20R%204.2.2,-NEW%20FEATURES)
 
@@ -78,17 +78,17 @@ changes here.
 * [Version 4.2.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=non%2DASCII%20characters.-,CHANGES%20IN%20R%204.2.0,-SIGNIFICANT%20USER%2DVISIBLE)
   * Significant User-Visible Changes:
 
-    * The formula method of aggregate() now matches the generic in naming its
+    * The formula method of `aggregate()` now matches the generic in naming its
       first argument x (resolving PR#18299 by Thomas Soeiro).
 
-      This means that calling aggregate() with a formula as a named first
+      This means that calling `aggregate()` with a formula as a named first
       argument requires name formula in earlier versions of R and name x now, so
       portable code should not name the argument (code in many packages did).
 
     * Calling && or || with either argument of length greater than one now gives
       a warning (which it is intended will become an error).
 
-    * Calling if() or while() with a condition of length greater than one gives
+    * Calling `if()` or `while()` with a condition of length greater than one gives
       an error rather than a warning. Consequently, environment variable
       _R_CHECK_LENGTH_1_CONDITION_ no longer has any effect.
 
@@ -114,11 +114,11 @@ changes here.
 
 * [Version 4.1.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=mailto%3A%E2%81%A0%E2%80%99%20prefix.-,CHANGES%20IN%20R%204.1.3,-NEW%20FEATURES)
 
-* [Version 4.1.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318296).-,CHANGES%20IN%20R%204.1.2,-C%2DLEVEL%20FACILITIES)
+* [Version 4.1.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318296.-,CHANGES%20IN%20R%204.1.2,-C%2DLEVEL%20FACILITIES)
 
 * [Version 4.1.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=attributes(fn).-,CHANGES%20IN%20R%204.1.1,-NEW%20FEATURES)
 
-* [Version 4.1.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318072.)-,CHANGES%20IN%20R%204.1.0,-FUTURE%20DIRECTIONS)
+* [Version 4.1.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318072.-,CHANGES%20IN%20R%204.1.0,-FUTURE%20DIRECTIONS)
   * Future Directions:
     * It is planned that the 4.1.x series will be the last to support 32-bit
       Windows, with production of binary packages for that series continuing
@@ -138,9 +138,9 @@ changes here.
 
 ## Version 4.0.x
 
-* [Version 4.0.5](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318031).-,CHANGES%20IN%20R%204.0.5,-BUG%20FIXES)
+* [Version 4.0.5](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318031.-,CHANGES%20IN%20R%204.0.5,-BUG%20FIXES)
 
-* [Version 4.0.4](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=4.0.0%20to%204.0.4).-,CHANGES%20IN%20R%204.0.4,-NEW%20FEATURES)
+* [Version 4.0.4](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=4.0.0%20to%204.0.4.-,CHANGES%20IN%20R%204.0.4,-NEW%20FEATURES)
 
 * [Version 4.0.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=invalid%20context%22%20error.-,CHANGES%20IN%20R%204.0.3,-NEW%20FEATURES)
 
@@ -167,19 +167,19 @@ changes here.
       more details see ?Quotes.
 
     * R now uses a ‘⁠stringsAsFactors = FALSE⁠’ default, and hence by
-      default no longer converts strings to factors in calls to data.frame() and
-      read.table().
+      default no longer converts strings to factors in calls to `data.frame()` and
+      `read.table()`.
 
       A large number of packages relied on the previous behaviour and so have
       needed/will need updating.
 
-    * The plot() S3 generic function is now in package base rather than package
+    * The `plot()` S3 generic function is now in package base rather than package
       graphics, as it is reasonable to have methods that do not use the graphics
       package. The generic is currently re-exported from the graphics namespace
       to allow packages importing it from there to continue working, but this
       may change in future.
 
-      Packages which define S4 generics for plot() should be re-installed and
+      Packages which define S4 generics for `plot()` should be re-installed and
       package code using such generics from other packages needs to ensure that
       they are imported rather than rely on their being looked for on the search
       path (as in a namespace, the base namespace has precedence over the search
@@ -196,8 +196,8 @@ changes here.
 * [Version 3.6.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=in%20all%20cases.-,CHANGES%20IN%20R%203.6.0,-SIGNIFICANT%20USER%2DVISIBLE)
   * Significant User-Visible Changes:
     * Serialization format version 3 becomes the default for serialization and
-      saving of the workspace (save(), serialize(), saveRDS(),
-      compiler::cmpfile()). Serialized data in format 3 cannot be read by
+      saving of the workspace (`save()`, `serialize()`, `saveRDS()`,
+      `compiler::cmpfile()`). Serialized data in format 3 cannot be read by
       versions of R prior to version 3.5.0. Serialization format version 2 is
       still supported and can be selected by version = 2 in the
       save/serialization functions. The default can be changed back for the
@@ -209,20 +209,20 @@ changes here.
       version 3).
 
     * The default method for generating from a discrete uniform distribution
-      (used in sample(), for instance) has been changed. This addresses the
+      (used in `sample()`, for instance) has been changed. This addresses the
       fact, pointed out by Ottoboni and Stark, that the previous method made
-      sample() noticeably non-uniform on large populations. See PR#17494 for a
-      discussion. The previous method can be requested using RNGkind() or
-      RNGversion() if necessary for reproduction of old results. Thanks to
+      `sample()` noticeably non-uniform on large populations. See PR#17494 for a
+      discussion. The previous method can be requested using `RNGkind()` or
+      `RNGversion()` if necessary for reproduction of old results. Thanks to
       Duncan Murdoch for contributing the patch and Gabe Becker for further
       assistance.
 
-      The output of RNGkind() has been changed to also return the ‘kind’ used by
-      sample().
+      The output of `RNGkind()` has been changed to also return the ‘kind’ used by
+      `sample()`.
 
 ## Version 3.5.x
 
-* [Version 3.5.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=for%20the%20report).-,CHANGES%20IN%20R%203.5.3,-INSTALLATION%20on%20a)
+* [Version 3.5.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=for%20the%20report.-,CHANGES%20IN%20R%203.5.3,-INSTALLATION%20on%20a)
 
 * [Version 3.5.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=no%20longer%20fails.-,CHANGES%20IN%20R%203.5.2,-PACKAGE%20INSTALLATION)
 
