@@ -8,45 +8,49 @@ format:
 
 This website offers a quick visualization of the lifespans of different R versions, along with detials about the project's [history](r-news.qmd). While this information exists on the web, it is often scattered. Here, it is brought together with help from the [rversions package](https://cran.r-project.org/package=rversions). You can click "Show the code" to see how each section was generated.
 
+## Version History
+
+All historical versions of R as reported by `rversions::r_versions()`. R version numbers consist of three numbers (since version 1.4.1): major, minor and patch.
+
 ```{r}
 #| label: data-munge
 
 ## r_versions_data
 r_versions_data <-
-    r_versions() |> 
-    arrange(package_version(version)) |> 
-    rename(release_date = date) |> 
-    mutate(
+    rversions::r_versions() |> 
+    dplyr::arrange(package_version(version)) |> 
+    dplyr::rename(release_date = date) |> 
+    dplyr::mutate(
         version_fct = factor(version, levels = rev(unique(package_version(version)))),
-        major_version = str_extract(version, "^[0-9]+\\.[0-9]+"),
-        major_version = case_when(
+        major_version = stringr::str_extract(version, "^[0-9]+\\.[0-9]+"),
+        major_version = dplyr::case_when(
           as.numeric(major_version) < 1 ~ NA_character_, 
           TRUE ~ major_version
           ),
         major_version_fct = factor(major_version, levels = rev(unique(package_version(major_version)))), 
-        superseded_date = lead(release_date),
-        superseded_date = replace_na(superseded_date, now()),
-        nickname = case_when(
+        superseded_date = dplyr::lead(release_date),
+        superseded_date = tidyr::replace_na(superseded_date, lubridate::now()),
+        nickname = dplyr::case_when(
           is.na(nickname) ~ glue::glue('v{version}'), 
           TRUE ~ glue::glue('v{version}: {nickname}'))
     ) |> 
-    relocate(superseded_date, .after = release_date)
+    dplyr::relocate(superseded_date, .after = release_date)
 
 ## osv-vulnerabilities
 source('utils/osv-cve-helper.R')
 r_base_vulns <- query_osv(name = 'r-base', ecosystem = 'Debian')
 r_base_vulns_data <- 
   r_base_vulns |> 
-  separate(fixed, into = c('fixed_r_version', 'ecosystem_revision'), sep = '-')
+  tidyr::separate(fixed, into = c('fixed_r_version', 'ecosystem_revision'), sep = '-')
 
 ## combined
 combined <- 
   r_versions_data |> 
-  cross_join(r_base_vulns_data) |> 
+  dplyr::cross_join(r_base_vulns_data) |> 
   tibble::as_tibble() |> 
-  mutate(is_vulnerable = package_version(as.character(version)) < package_version(fixed_r_version)) |> 
-  group_by(major_version, major_version_fct) |> 
-  summarize(
+  dplyr::mutate(is_vulnerable = package_version(as.character(version)) < package_version(fixed_r_version)) |> 
+  dplyr::group_by(major_version, major_version_fct) |> 
+  dplyr::summarize(
     release_date = min(release_date, na.rm = TRUE),
     superseded_date = max(superseded_date, na.rm = TRUE),
     is_vulnerable = any(is_vulnerable), 
@@ -58,8 +62,8 @@ combined <-
 ```{r}
 #| label: data-table-r_versions
 r_versions_data |> 
-  select(-c(ends_with("_fct"), major_version)) |> 
-  datatable(
+  dplyr::select(-c(dplyr::ends_with("_fct"), major_version)) |> 
+  DT::datatable(
     options = list(
       scrollY = 425,
       scroller = TRUE
@@ -71,8 +75,8 @@ r_versions_data |>
 ```{r}
 #| label: plotly
 combined |>  
-  plot_ly() |> 
-  add_segments(
+  plotly::plot_ly() |> 
+  plotly::add_segments(
     x = ~release_date, xend = ~superseded_date, 
     y = ~major_version, yend = ~major_version,
     color = ~is_vulnerable,
@@ -80,7 +84,7 @@ combined |>
     line = list(width = 6),
     hoverinfo = 'text', text = ~nickname
   ) |> 
-  layout(
+  plotly::layout(
     title = "R Major Version Lifespan",
     xaxis = list(title = "Date"),
     yaxis = list(
@@ -103,11 +107,11 @@ This resource tracks current and historical vulnerabilities for the `r-base` pac
 ```{r}
 #| label: data-table-osv-vulnerabilities
 r_base_vulns |> 
-  mutate(
+  dplyr::mutate(
     id = glue::glue("<a href='https://osv.dev/vulnerability/{id}' target='_blank'>{id}</a>")
     ) |> 
-  select(-references) |> 
-  datatable(
+  dplyr::select(-references) |> 
+  DT::datatable(
     options = list(
       scrollX = TRUE,
       scrollY = 425,
