@@ -20,8 +20,8 @@ jobs:
       - name: Read R version from renv.lock
         id: r-version
         run: |
-          R_VERSION=$(jq -r '.R.Version' renv.lock)
-          echo "r-version=$R_VERSION" >> $GITHUB_OUTPUT
+          R_VERSION=$(jq -r '.R.Version // empty' renv.lock)
+          echo "r-version=${R_VERSION:-4.5.1}" >> $GITHUB_OUTPUT
           
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
