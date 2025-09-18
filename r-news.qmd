@@ -1,0 +1,237 @@
+---
+title: "r-changelog"
+format: html
+---
+
+With each release of R a bulleted list of changes are published and are
+organized by major release.
+
+* [Version 4.x](https://cran.r-project.org/doc/manuals/r-release/NEWS.html)
+* Version 3.x
+  * [html](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html)
+  * [text](https://cran.r-project.org/doc/manuals/NEWS.3)
+* Version 2.x
+  * [2.10 through 2.15 in
+    html](https://cran.r-project.org/doc/manuals/r-release/NEWS.2.html)
+  * All of 2.x [text file](https://cran.r-project.org/doc/manuals/NEWS.2)
+* [Version 1.x](https://cran.r-project.org/doc/manuals/NEWS.1)
+* [Version 0.x](https://cran.r-project.org/doc/manuals/NEWS.0)
+
+The release notes include sections for
+
+* Significant User-Visible Changes
+* New Features
+* Bug Fixes
+* Deprecated and Defunct
+* _and several others_
+
+We will link out to the specific versions, and note the signifiant user-visible
+changes here.
+
+## Version 4.5.x
+
+* [Version 4.5.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=R%20News-,CHANGES%20IN%20R%204.5.1,-NEW%20FEATURES)
+
+* [Version 4.5.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=pnbinom()%2C%20etc..-,CHANGES%20IN%20R%204.5.0,-NEW%20FEATURES)
+
+## Version 4.4.x
+
+* [Version 4.4.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=signals%20a%20warning.-,CHANGES%20IN%20R%204.4.3,-INSTALLATION)
+
+* [Version 4.4.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=by%20Peter%20Ruckdeschel.-,CHANGES%20IN%20R%204.4.2,-C%2DLEVEL%20FACILITIES)
+
+* [Version 4.4.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=devel%20mailing%20list.-,CHANGES%20IN%20R%204.4.1,-C%2DLEVEL%20FACILITIES)
+
+* [Version 4.4.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=has%20no%20vignettes.-,CHANGES%20IN%20R%204.4.0,-SIGNIFICANT%20USER%2DVISIBLE)
+
+## Version 4.3.x
+
+* [Version 4.3.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=from%20checking%20vignettes.-,CHANGES%20IN%20R%204.3.3,-NEW%20FEATURES)
+
+* [Version 4.3.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=updating%20on%20screen.-,CHANGES%20IN%20R%204.3.2,-NEW%20FEATURES)
+
+* [Version 4.3.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=%E2%81%A0%5CSexpr%E2%81%A0%20macros.-,CHANGES%20IN%20R%204.3.1,-C%2DLEVEL%20FACILITIES)
+
+* [Version 4.3.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318541).-,CHANGES%20IN%20R%204.3.0,-SIGNIFICANT%20USER%2DVISIBLE)
+  * Significant User-Visible Changes:
+    * Calling && or || with LHS or (if evaluated) RHS of length greater than one
+      is now always an error, with a report of the form
+
+        'length = 4' in coercion to 'logical(1)'
+
+    Environment variable _R_CHECK_LENGTH_1_LOGIC2_ no longer has any effect.
+
+  * New Features: there are many, we highlight:
+    * As an experimental feature the placeholder `_` can now also be used in the
+      rhs of a forward pipe `|>` expression as the first argument in an extraction
+      call, such as `_$coef`. More generally, it can be used as the head of a
+      chain of extractions, such as `_$coef[[2]]`.
+
+## Version 4.2.x
+
+* [Version 4.2.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=from%20Kevin%20Ushey).-,CHANGES%20IN%20R%204.2.3,-C%2DLEVEL%20FACILITIES)
+
+* [Version 4.2.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=not%20support%20transliteration.-,CHANGES%20IN%20R%204.2.2,-NEW%20FEATURES)
+
+* [Version 4.2.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=keyboard%20(PR%2318391).-,CHANGES%20IN%20R%204.2.1,-NEW%20FEATURES)
+
+* [Version 4.2.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=non%2DASCII%20characters.-,CHANGES%20IN%20R%204.2.0,-SIGNIFICANT%20USER%2DVISIBLE)
+  * Significant User-Visible Changes:
+
+    * The formula method of aggregate() now matches the generic in naming its
+      first argument x (resolving PR#18299 by Thomas Soeiro).
+
+      This means that calling aggregate() with a formula as a named first
+      argument requires name formula in earlier versions of R and name x now, so
+      portable code should not name the argument (code in many packages did).
+
+    * Calling && or || with either argument of length greater than one now gives
+      a warning (which it is intended will become an error).
+
+    * Calling if() or while() with a condition of length greater than one gives
+      an error rather than a warning. Consequently, environment variable
+      _R_CHECK_LENGTH_1_CONDITION_ no longer has any effect.
+
+    * Windows users should consult the WINDOWS section below for some profound
+      changes including
+
+      * Support for 32-bit builds has been dropped.
+
+      * UTF-8 locales are used where available.
+
+      * The default locations for the R installation and personal library folder
+        have been changed.
+
+      Thanks to Tomas Kalibera for months of work on the Windows port for this
+      release.
+
+  * New Features: there are many, we highlight:
+    * In a forward pipe `|>` expression it is now possible to use a named
+      argument with the placeholder `_` in the rhs call to specify where the lhs
+      is to be inserted. The placeholder can only appear once on the rhs.
+
+## Version 4.1.x
+
+* [Version 4.1.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=mailto%3A%E2%81%A0%E2%80%99%20prefix.-,CHANGES%20IN%20R%204.1.3,-NEW%20FEATURES)
+
+* [Version 4.1.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318296).-,CHANGES%20IN%20R%204.1.2,-C%2DLEVEL%20FACILITIES)
+
+* [Version 4.1.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=attributes(fn).-,CHANGES%20IN%20R%204.1.1,-NEW%20FEATURES)
+
+* [Version 4.1.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318072.)-,CHANGES%20IN%20R%204.1.0,-FUTURE%20DIRECTIONS)
+  * Future Directions:
+    * It is planned that the 4.1.x series will be the last to support 32-bit
+      Windows, with production of binary packages for that series continuing
+      until early 2023.
+
+  * Significant User-Visible Changes
+    * Data set esoph in package datasets now provides the correct numbers of
+      controls; previously it had the numbers of cases added to these. (Reported
+      by Alexander Fowler in PR#17964.)
+
+  * New Features: there are many, we highlight:
+    * R now provides a simple native forward pipe syntax `|>`. The simple form
+      of the forward pipe inserts the left-hand side as the first argument in
+      the right-hand side call. The pipe implementation as a syntax
+      transformation was motivated by suggestions from Jim Hester and Lionel
+      Henry.
+
+## Version 4.0.x
+
+* [Version 4.0.5](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2318031).-,CHANGES%20IN%20R%204.0.5,-BUG%20FIXES)
+
+* [Version 4.0.4](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=4.0.0%20to%204.0.4).-,CHANGES%20IN%20R%204.0.4,-NEW%20FEATURES)
+
+* [Version 4.0.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=invalid%20context%22%20error.-,CHANGES%20IN%20R%204.0.3,-NEW%20FEATURES)
+
+* [Version 4.0.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=PR%2316716.-,CHANGES%20IN%20R%204.0.2,-UTILITIES)
+
+* [Version 4.0.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=Plane%20on%20Windows.-,CHANGES%20IN%20R%204.0.1,-NEW%20FEATURES)
+
+* [Version 4.0.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.html#:~:text=by%20Gabor%20Csardi.-,CHANGES%20IN%20R%204.0.0,-SIGNIFICANT%20USER%2DVISIBLE)
+
+  * Significant User-Visible Changes:
+
+    * Packages need to be (re-)installed under this version (4.0.0) of R.
+
+    * `matrix` objects now also inherit from class "array", so e.g.,
+      class(diag(1)) is c("matrix", "array"). This invalidates code incorrectly
+      assuming that class(matrix_obj)) has length one.
+
+    * S3 methods for class "array" are now dispatched for matrix objects.
+
+    * There is a new syntax for specifying raw character constants similar to
+      the one used in C++: r"(...)" with ... any character sequence not
+      containing the sequence ‘⁠)"⁠’. This makes it easier to write
+      strings that contain backslashes or both single and double quotes. For
+      more details see ?Quotes.
+
+    * R now uses a ‘⁠stringsAsFactors = FALSE⁠’ default, and hence by
+      default no longer converts strings to factors in calls to data.frame() and
+      read.table().
+
+      A large number of packages relied on the previous behaviour and so have
+      needed/will need updating.
+
+    * The plot() S3 generic function is now in package base rather than package
+      graphics, as it is reasonable to have methods that do not use the graphics
+      package. The generic is currently re-exported from the graphics namespace
+      to allow packages importing it from there to continue working, but this
+      may change in future.
+
+      Packages which define S4 generics for plot() should be re-installed and
+      package code using such generics from other packages needs to ensure that
+      they are imported rather than rely on their being looked for on the search
+      path (as in a namespace, the base namespace has precedence over the search
+      path).
+
+## Version 3.6.x
+
+* [Version 3.6.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=doc%E2%80%99%20directory.-,CHANGES%20IN%20R%203.6.3,-NEW%20FEATURES)
+
+* [Version 3.6.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=PR%2317710.-,CHANGES%20IN%20R%203.6.2,-NEW%20FEATURES)
+
+* [Version 3.6.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=PR%2317665.-,CHANGES%20IN%20R%203.6.1,-INSTALLATION%20on%20a)
+
+* [Version 3.6.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=in%20all%20cases.-,CHANGES%20IN%20R%203.6.0,-SIGNIFICANT%20USER%2DVISIBLE)
+  * Significant User-Visible Changes:
+    * Serialization format version 3 becomes the default for serialization and
+      saving of the workspace (save(), serialize(), saveRDS(),
+      compiler::cmpfile()). Serialized data in format 3 cannot be read by
+      versions of R prior to version 3.5.0. Serialization format version 2 is
+      still supported and can be selected by version = 2 in the
+      save/serialization functions. The default can be changed back for the
+      whole R session by setting environment variables R_DEFAULT_SAVE_VERSION
+      and R_DEFAULT_SERIALIZE_VERSION to 2. For maximal back-compatibility,
+      files ‘vignette.rds’ and ‘partial.rdb’ generated by R CMD build are in
+      serialization format version 2, and resave by default produces files in
+      serialization format version 2 (unless the original is already in format
+      version 3).
+
+    * The default method for generating from a discrete uniform distribution
+      (used in sample(), for instance) has been changed. This addresses the
+      fact, pointed out by Ottoboni and Stark, that the previous method made
+      sample() noticeably non-uniform on large populations. See PR#17494 for a
+      discussion. The previous method can be requested using RNGkind() or
+      RNGversion() if necessary for reproduction of old results. Thanks to
+      Duncan Murdoch for contributing the patch and Gabe Becker for further
+      assistance.
+
+      The output of RNGkind() has been changed to also return the ‘kind’ used by
+      sample().
+
+## Version 3.5.x
+
+* [Version 3.5.3](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=for%20the%20report).-,CHANGES%20IN%20R%203.5.3,-INSTALLATION%20on%20a)
+
+* [Version 3.5.2](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=no%20longer%20fails.-,CHANGES%20IN%20R%203.5.2,-PACKAGE%20INSTALLATION)
+
+* [Version 3.5.1](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=by%20Chris%20Culnane.-,CHANGES%20IN%20R%203.5.1,-BUG%20FIXES)
+
+* [Version 3.5.0](https://cran.r-project.org/doc/manuals/r-release/NEWS.3.html#:~:text=invalid%20multibyte%20strings.-,CHANGES%20IN%20R%203.5.0,-SIGNIFICANT%20USER%2DVISIBLE)
+  * Significant User-Visible Changes:
+    * All packages are by default byte-compiled on installation. This makes the
+      installed packages larger (usually marginally so) and may affect the
+      format of messages and tracebacks (which often exclude .Call and similar).
+
+
