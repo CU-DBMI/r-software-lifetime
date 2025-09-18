@@ -6,7 +6,7 @@ format:
     code-summary: "Show the code"
 ---
 
-This website provides a quick visualization of the lifespans of different R versions. While the information exists on the web, summarized and glanceable details are somewhat scattered. This site brings it together with help from the [rversions package](https://cran.r-project.org/package=rversions). Click the "Show the code" button to view the code used to create each section.
+This website offers a quick visualization of the lifespans of different R versions, along with detials about the project's [history](r-news.qmd). While this information exists on the web, it is often scattered. Here, it is brought together with help from the [rversions package](https://cran.r-project.org/package=rversions). You can click "Show the code" to see how each section was generated.
 
 ```{r}
 #| label: data-munge
