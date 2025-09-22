@@ -7,11 +7,11 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: home
       - href: r-news.qmd
-        text: R NEWS
+        text: r-news
       - href: about.qmd
-        text: About
+        text: about
     tools:
       - icon: github
         menu:
