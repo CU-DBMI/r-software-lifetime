@@ -10,7 +10,7 @@ This website offers a quick visualization of the lifespans of different R versio
 
 ## Version History
 
-All historical versions of R as reported by `rversions::r_versions()`. R version numbers consist of three numbers (since version 1.4.1): major, minor and patch.
+All historical versions of R as reported by [`rversions::r_versions()`](https://r-hub.github.io/rversions/reference/r_versions.html). R version numbers consist of three numbers (since version 1.4.1): major, minor and patch.
 
 ```{r}
 #| label: data-munge
