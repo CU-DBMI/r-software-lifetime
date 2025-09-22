@@ -37,7 +37,7 @@ r_versions_data <-
     dplyr::relocate(superseded_date, .after = release_date)
 
 ## osv-vulnerabilities
-source('utils/osv-cve-helper.R')
+source('utils/cve.R')
 r_base_vulns <- query_osv(name = 'r-base', ecosystem = 'Debian')
 r_base_vulns_data <- 
   r_base_vulns |> 
