@@ -101,7 +101,7 @@ combined |>
 
 ## R-Project Vulnerability Information
 
-This resource tracks current and historical vulnerabilities for the `r-base` package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a precise indication of which version of R is best for your projects, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation.
+This resource tracks current and historical vulnerabilities for the `r-base` package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a precise indication of which version of R is best for your projects, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation. Notably, recent vulnerabilities such as [CVE-2024-27322](https://osv.dev/vulnerability/CVE-2024-27322) have been addressed starting with R version 4.4.0. Users are strongly encouraged to upgrade to R 4.4.0 or later so that they are not impacted by these known security issues.
 
 
 ```{r}
