@@ -60,19 +60,6 @@ combined <-
 ```
 
 ```{r}
-#| label: data-table-r_versions
-r_versions_data |> 
-  dplyr::select(-c(dplyr::ends_with("_fct"), major_version)) |> 
-  DT::datatable(
-    options = list(
-      scrollY = 425,
-      scroller = TRUE
-      ), 
-    rownames = FALSE
-  )
-```
-
-```{r}
 #| label: plotly
 combined |>  
   plotly::plot_ly() |> 
@@ -98,6 +85,20 @@ combined |>
     )
   )
 ```
+
+```{r}
+#| label: data-table-r_versions
+r_versions_data |> 
+  dplyr::select(-c(dplyr::ends_with("_fct"), major_version)) |> 
+  DT::datatable(
+    options = list(
+      scrollY = 425,
+      scroller = TRUE
+      ), 
+    rownames = FALSE
+  )
+```
+
 
 ## R-Project Vulnerability Information
 
