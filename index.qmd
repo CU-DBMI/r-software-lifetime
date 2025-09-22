@@ -94,7 +94,7 @@ combined |>
       categoryarray = sort(unique(combined$major_version_fct))
     ),
     legend = list(
-      title = list(text = "CVE Exists")
+      title = list(text = "Impacted by CVE")
     )
   )
 ```
