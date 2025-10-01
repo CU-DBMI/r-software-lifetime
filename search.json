@@ -1,5 +1,33 @@
 [
   {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "about",
+    "section": "",
+    "text": "This site is maintained by the Software Engineering Team at the University of Colorado Anschutz Medical Campus"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "r-software-lifetime",
+    "section": "",
+    "text": "This website offers a quick visualization of the lifespans of different R versions, along with detials about the project’s history. While this information exists on the web, it is often scattered. Here, it is brought together with help from the rversions package. You can click “Show the code” to see how each section was generated."
+  },
+  {
+    "objectID": "index.html#version-history",
+    "href": "index.html#version-history",
+    "title": "r-software-lifetime",
+    "section": "Version History",
+    "text": "Version History\nAll historical versions of R as reported by rversions::r_versions(). R has adopted semantic versioning for all verions since version 1.4.1.\n\n\nShow the code\n## r_versions_data\nr_versions_data &lt;-\n    rversions::r_versions() |&gt; \n    dplyr::arrange(package_version(version)) |&gt; \n    dplyr::rename(release_date = date) |&gt; \n    dplyr::mutate(\n        version_fct = factor(version, levels = rev(unique(package_version(version)))),\n        major_version = stringr::str_extract(version, \"^[0-9]+\\\\.[0-9]+\"),\n        major_version = dplyr::case_when(\n          as.numeric(major_version) &lt; 1 ~ NA_character_, \n          TRUE ~ major_version\n          ),\n        major_version_fct = factor(major_version, levels = rev(unique(package_version(major_version)))), \n        superseded_date = dplyr::lead(release_date),\n        superseded_date = tidyr::replace_na(superseded_date, lubridate::now()),\n        nickname = dplyr::case_when(\n          is.na(nickname) ~ glue::glue('v{version}'), \n          TRUE ~ glue::glue('v{version}: {nickname}'))\n    ) |&gt; \n    dplyr::relocate(superseded_date, .after = release_date)\n\n## osv-vulnerabilities\nsource('utils/cve.R')\nr_base_vulns &lt;- query_osv(name = 'r-base', ecosystem = 'Debian')\nr_base_vulns_data &lt;- \n  r_base_vulns |&gt; \n  tidyr::separate(fixed, into = c('fixed_r_version', 'ecosystem_revision'), sep = '-')\n\n## combined\ncombined &lt;- \n  r_versions_data |&gt; \n  dplyr::cross_join(r_base_vulns_data) |&gt; \n  tibble::as_tibble() |&gt; \n  dplyr::mutate(is_vulnerable = package_version(as.character(version)) &lt; package_version(fixed_r_version)) |&gt; \n  dplyr::group_by(major_version, major_version_fct) |&gt; \n  dplyr::summarize(\n    release_date = min(release_date, na.rm = TRUE),\n    superseded_date = max(superseded_date, na.rm = TRUE),\n    is_vulnerable = any(is_vulnerable), \n    nickname = nickname[which.min(release_date)],\n    .groups = 'drop'\n    )\n\n\n\n\nShow the code\ncombined |&gt;  \n  plotly::plot_ly() |&gt; \n  plotly::add_segments(\n    x = ~release_date, xend = ~superseded_date, \n    y = ~major_version, yend = ~major_version,\n    color = ~is_vulnerable,\n    colors = c(\"FALSE\" = \"steelblue\", \"TRUE\" = \"red\"),\n    line = list(width = 6),\n    hoverinfo = 'text', text = ~nickname\n  ) |&gt; \n  plotly::layout(\n    title = \"R Major Version Lifespan\",\n    xaxis = list(title = \"Date\"),\n    yaxis = list(\n      title = \"Major Version\",\n      type = \"category\",\n      categoryorder = \"array\",\n      categoryarray = sort(unique(combined$major_version_fct))\n    ),\n    legend = list(\n      title = list(text = \"Impacted by CVE\")\n    )\n  )\n\n\n\n\n\n\n\n\nShow the code\nr_versions_data |&gt; \n  dplyr::select(-c(dplyr::ends_with(\"_fct\"), major_version)) |&gt; \n  DT::datatable(\n    options = list(\n      scrollY = 425,\n      scroller = TRUE\n      ), \n    rownames = FALSE\n  )"
+  },
+  {
+    "objectID": "index.html#r-project-vulnerability-information",
+    "href": "index.html#r-project-vulnerability-information",
+    "title": "r-software-lifetime",
+    "section": "R-Project Vulnerability Information",
+    "text": "R-Project Vulnerability Information\nThis resource tracks current and historical vulnerabilities for the r-base package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a precise indication of which version of R is best for your projects, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation. Notably, recent vulnerabilities such as CVE-2024-27322 have been addressed starting with R version 4.4.0. Users are strongly encouraged to upgrade to R 4.4.0 or later so that they are not impacted by these known security issues.\n\n\nShow the code\nr_base_vulns |&gt; \n  dplyr::mutate(\n    id = glue::glue(\"&lt;a href='https://osv.dev/vulnerability/{id}' target='_blank'&gt;{id}&lt;/a&gt;\")\n    ) |&gt; \n  dplyr::select(-references) |&gt; \n  DT::datatable(\n    options = list(\n      scrollX = TRUE,\n      scrollY = 425,\n      scroller = TRUE,\n      columnDefs = list(\n      list(\n        targets = 6,\n        render = DT::JS('$.fn.dataTable.render.ellipsis( 65 )')\n      )\n    )\n      ), \n    rownames = FALSE,\n    escape = FALSE,\n    plugins = 'ellipsis'\n  )\n\n\n\n\n\n\nCVE information provided by osv.dev"
+  },
+  {
     "objectID": "r-news.html",
     "href": "r-news.html",
     "title": "r-changelog",
@@ -61,33 +89,5 @@
     "title": "r-changelog",
     "section": "Version 3.5.x",
     "text": "Version 3.5.x\n\nVersion 3.5.3\nVersion 3.5.2\nVersion 3.5.1\nVersion 3.5.0\n\nSignificant User-Visible Changes:\n\nAll packages are by default byte-compiled on installation. This makes the installed packages larger (usually marginally so) and may affect the format of messages and tracebacks (which often exclude .Call and similar)."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "about",
-    "section": "",
-    "text": "This site is maintained by the Software Engineering Team at the University of Colorado Anschutz Medical Campus"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "r-software-lifetime",
-    "section": "",
-    "text": "This website offers a quick visualization of the lifespans of different R versions, along with detials about the project’s history. While this information exists on the web, it is often scattered. Here, it is brought together with help from the rversions package. You can click “Show the code” to see how each section was generated."
-  },
-  {
-    "objectID": "index.html#version-history",
-    "href": "index.html#version-history",
-    "title": "r-software-lifetime",
-    "section": "Version History",
-    "text": "Version History\nAll historical versions of R as reported by rversions::r_versions(). R has adopted semantic versioning for all verions since version 1.4.1.\n\n\nShow the code\n## r_versions_data\nr_versions_data &lt;-\n    rversions::r_versions() |&gt; \n    dplyr::arrange(package_version(version)) |&gt; \n    dplyr::rename(release_date = date) |&gt; \n    dplyr::mutate(\n        version_fct = factor(version, levels = rev(unique(package_version(version)))),\n        major_version = stringr::str_extract(version, \"^[0-9]+\\\\.[0-9]+\"),\n        major_version = dplyr::case_when(\n          as.numeric(major_version) &lt; 1 ~ NA_character_, \n          TRUE ~ major_version\n          ),\n        major_version_fct = factor(major_version, levels = rev(unique(package_version(major_version)))), \n        superseded_date = dplyr::lead(release_date),\n        superseded_date = tidyr::replace_na(superseded_date, lubridate::now()),\n        nickname = dplyr::case_when(\n          is.na(nickname) ~ glue::glue('v{version}'), \n          TRUE ~ glue::glue('v{version}: {nickname}'))\n    ) |&gt; \n    dplyr::relocate(superseded_date, .after = release_date)\n\n## osv-vulnerabilities\nsource('utils/cve.R')\nr_base_vulns &lt;- query_osv(name = 'r-base', ecosystem = 'Debian')\nr_base_vulns_data &lt;- \n  r_base_vulns |&gt; \n  tidyr::separate(fixed, into = c('fixed_r_version', 'ecosystem_revision'), sep = '-')\n\n## combined\ncombined &lt;- \n  r_versions_data |&gt; \n  dplyr::cross_join(r_base_vulns_data) |&gt; \n  tibble::as_tibble() |&gt; \n  dplyr::mutate(is_vulnerable = package_version(as.character(version)) &lt; package_version(fixed_r_version)) |&gt; \n  dplyr::group_by(major_version, major_version_fct) |&gt; \n  dplyr::summarize(\n    release_date = min(release_date, na.rm = TRUE),\n    superseded_date = max(superseded_date, na.rm = TRUE),\n    is_vulnerable = any(is_vulnerable), \n    nickname = nickname[which.min(release_date)],\n    .groups = 'drop'\n    )\n\n\n\n\nShow the code\ncombined |&gt;  \n  plotly::plot_ly() |&gt; \n  plotly::add_segments(\n    x = ~release_date, xend = ~superseded_date, \n    y = ~major_version, yend = ~major_version,\n    color = ~is_vulnerable,\n    colors = c(\"FALSE\" = \"steelblue\", \"TRUE\" = \"red\"),\n    line = list(width = 6),\n    hoverinfo = 'text', text = ~nickname\n  ) |&gt; \n  plotly::layout(\n    title = \"R Major Version Lifespan\",\n    xaxis = list(title = \"Date\"),\n    yaxis = list(\n      title = \"Major Version\",\n      type = \"category\",\n      categoryorder = \"array\",\n      categoryarray = sort(unique(combined$major_version_fct))\n    ),\n    legend = list(\n      title = list(text = \"Impacted by CVE\")\n    )\n  )\n\n\n\n\n\n\n\n\nShow the code\nr_versions_data |&gt; \n  dplyr::select(-c(dplyr::ends_with(\"_fct\"), major_version)) |&gt; \n  DT::datatable(\n    options = list(\n      scrollY = 425,\n      scroller = TRUE\n      ), \n    rownames = FALSE\n  )"
-  },
-  {
-    "objectID": "index.html#r-project-vulnerability-information",
-    "href": "index.html#r-project-vulnerability-information",
-    "title": "r-software-lifetime",
-    "section": "R-Project Vulnerability Information",
-    "text": "R-Project Vulnerability Information\nThis resource tracks current and historical vulnerabilities for the r-base package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a precise indication of which version of R is best for your projects, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation. Notably, recent vulnerabilities such as CVE-2024-27322 have been addressed starting with R version 4.4.0. Users are strongly encouraged to upgrade to R 4.4.0 or later so that they are not impacted by these known security issues.\n\n\nShow the code\nr_base_vulns |&gt; \n  dplyr::mutate(\n    id = glue::glue(\"&lt;a href='https://osv.dev/vulnerability/{id}' target='_blank'&gt;{id}&lt;/a&gt;\")\n    ) |&gt; \n  dplyr::select(-references) |&gt; \n  DT::datatable(\n    options = list(\n      scrollX = TRUE,\n      scrollY = 425,\n      scroller = TRUE,\n      columnDefs = list(\n      list(\n        targets = 6,\n        render = DT::JS('$.fn.dataTable.render.ellipsis( 65 )')\n      )\n    )\n      ), \n    rownames = FALSE,\n    escape = FALSE,\n    plugins = 'ellipsis'\n  )\n\n\n\n\n\n\nCVE information provided by osv.dev"
   }
 ]
