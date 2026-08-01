@@ -21,6 +21,13 @@
     "text": "R-Project Vulnerability Information\nThis resource tracks current and historical vulnerabilities for the r-base package in the Debian ecosystem, which generally serves as a proxy for vulnerabilities in the R interpreter itself. It is not intended as a precise indication of which version of R is best for your projects, but rather as a reference to help users stay informed and make decisions in light of official guidance and project documentation. Notably, recent vulnerabilities such as CVE-2024-27322 have been addressed starting with R version 4.4.0. Users are strongly encouraged to upgrade to R 4.4.0 or later so that they are not impacted by these known security issues.\n\n\nShow the code\nr_base_vulns |&gt; \n  dplyr::mutate(\n    id = glue::glue(\"&lt;a href='https://osv.dev/vulnerability/{id}' target='_blank'&gt;{id}&lt;/a&gt;\")\n    ) |&gt; \n  dplyr::select(-references) |&gt; \n  DT::datatable(\n    options = list(\n      scrollX = TRUE,\n      scrollY = 425,\n      scroller = TRUE,\n      columnDefs = list(\n      list(\n        targets = 6,\n        render = DT::JS('$.fn.dataTable.render.ellipsis( 65 )')\n      )\n    )\n      ), \n    rownames = FALSE,\n    escape = FALSE,\n    plugins = 'ellipsis'\n  )\n\n\n\n\n\n\nCVE information provided by osv.dev"
   },
   {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "about",
+    "section": "",
+    "text": "This site is maintained by the Software Engineering Team at the University of Colorado Anschutz Medical Campus"
+  },
+  {
     "objectID": "r-news.html",
     "href": "r-news.html",
     "title": "r-changelog",
@@ -82,12 +89,5 @@
     "title": "r-changelog",
     "section": "Version 3.5.x",
     "text": "Version 3.5.x\n\nVersion 3.5.3\nVersion 3.5.2\nVersion 3.5.1\nVersion 3.5.0\n\nSignificant User-Visible Changes:\n\nAll packages are by default byte-compiled on installation. This makes the installed packages larger (usually marginally so) and may affect the format of messages and tracebacks (which often exclude .Call and similar)."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "about",
-    "section": "",
-    "text": "This site is maintained by the Software Engineering Team at the University of Colorado Anschutz Medical Campus"
   }
 ]
